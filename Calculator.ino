@@ -28,9 +28,9 @@ void setup()
   lcd.init();  //initializes lcd
   lcd.backlight();  //starts backlight
   lcd.setCursor(2, 0); //sets cursor
-  lcd.print ("Henry Jones");
+  lcd.print ("Name");
   lcd.setCursor(2, 1);
-  lcd.print("Honors STEM");
+  lcd.print("progect name");
   delay (2500);
   lcd.clear();
   lcd.setCursor (4, 0);
