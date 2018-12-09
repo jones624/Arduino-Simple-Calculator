@@ -6,10 +6,10 @@ LiquidCrystal_I2C lcd(0x27, 16, 2); // sets the LCD address
 const byte ROWS = 4; // sets vaules for rows in COLS.
 const byte COLS = 4;
 char keys [ROWS] [COLS] = {
-  {'1', '2', '3', '/'},
-  {'4', '5', '6', '-'},
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
   {'7', '8', '9', 'C'}, //sets vaules for keypad keys
-  {'*', '0', '=', '+'}
+  {'*', '0', '=', 'D'}
 };
 byte rowPins[ROWS] = {0, 1, 2, 3}; //gives inputs for keypad rows, cols.
 byte colPins[COLS] = {4, 5, 6, 7};
@@ -48,8 +48,8 @@ void setup()
   lcd.setCursor (2, 1);
   lcd.print ("D=+ #== *=*");
   delay (5000);
-  lcd.clear ();
-}
+  lcd.clear (); 
+} //enters loop
 void loop() {
   char key = myKeypad.getKey();
   
@@ -58,7 +58,7 @@ if (key != NO_KEY && (key == '1' || key == '2' || key == '3' || key == '4' || ke
     if (presentValue != true)
     {
       num1 = num1 + key;
-      int numLength = num1.length();
+      int numLength = num1.length();// allows user to print number
       lcd.setCursor(15 - numLength, 0);
       lcd.print(num1);
     }
@@ -66,7 +66,7 @@ if (key != NO_KEY && (key == '1' || key == '2' || key == '3' || key == '4' || ke
     {
       num2 = num2 + key;
       int numLength = num2.length();
-      lcd.setCursor(15 - numLength, 1);
+      lcd.setCursor(15 - numLength, 1);//see above
       lcd.print(num2);
       final = true;
     }
@@ -76,7 +76,7 @@ if (key != NO_KEY && (key == '1' || key == '2' || key == '3' || key == '4' || ke
   {
     if (presentValue == false)
     {
-      presentValue = true;
+      presentValue = true; //prints sign of the operation
       op = key;
       lcd.setCursor(15, 0);
       lcd.print(op);
@@ -84,32 +84,32 @@ if (key != NO_KEY && (key == '1' || key == '2' || key == '3' || key == '4' || ke
   }
 
   else if (final == true && key != NO_KEY && key == '=') {
-    if (op == '+') {
-      answer = num1.toInt() + num2.toInt();
-    }
-    else if (op == '-') {
-      answer = num1.toInt() - num2.toInt();
+  if (op == 'A') {
+      answer = num1.toInt() / num2.toInt();
     }
     else if (op == '*') {
       answer = num1.toInt() * num2.toInt();
+      }
+   else if (op=='B') {
+      answer = num1.toINT() - num2.toInt();
     }
-    else if (op == '/') {
-      answer = num1.toInt() / num2.toInt();
+      else if (op == 'D') {
+      answer = num1.toInt() + num2.toInt();
     }
     lcd.clear();
     lcd.setCursor(15, 0);
     lcd.autoscroll();
-    lcd.print(answer);
+    lcd.print(answer); // prints answer
     lcd.noAutoscroll();
   }
   else if (key != NO_KEY && key == 'C') {
     lcd.clear();
     presentValue = false;
-    final = false;
+    final = false;  //clears screen when C is pressed
     num1 = "";
     num2 = "";
     answer = 0;
     op = ' ';
-  }
+  }// restarts loop
 
 }
